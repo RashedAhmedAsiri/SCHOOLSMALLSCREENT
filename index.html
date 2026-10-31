@@ -17,23 +17,20 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <!-- Frutiger Aero sky: gradient + light rays + floating bubbles -->
-  <div class="sky" aria-hidden="true">
-    <div class="rays"></div>
-    <div class="aurora"></div>
-    <div class="bubbles"></div>
+  <!-- soft moving color fields behind the glass (so the glass has something to refract) -->
+  <div class="backdrop" aria-hidden="true">
+    <span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span><span class="blob b4"></span>
+    <div class="grid-lines"></div>
   </div>
+  <div class="touch-glow" id="touchGlow" aria-hidden="true"></div>
 
   <header class="topbar">
-    <button class="glass-chip home-btn" id="homeBtn" aria-label="الرئيسية" hidden>
-      <svg viewBox="0 0 24 24" width="34" height="34" aria-hidden="true"><path fill="currentColor" d="M12 3 2 12h3v8h6v-6h2v6h6v-8h3z"/></svg>
+    <button class="glass pill-btn home-btn" id="homeBtn" aria-label="الرئيسية" hidden>
+      <svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><path fill="currentColor" d="M12 3 2 12h3v8h6v-6h2v6h6v-8h3z"/></svg>
       <span>الرئيسية</span>
     </button>
-    <div class="brand">
-      <span class="brand-dot"></span>
-      <span>ثانوية الموهوبين التقنية</span>
-    </div>
-    <div class="clock glass-chip" id="clock"></div>
+    <span></span>
+    <div class="clock glass pill-btn" id="clock"></div>
   </header>
 
   <main id="view" class="view"></main>

@@ -9,6 +9,7 @@
     view.innerHTML = page();
     homeBtn.hidden = route === "home";
     if (route === "home") setupTiles();
+    if (page.init) page.init(view);
     const scroller = view.querySelector(".intro");
     if (scroller) scroller.scrollTop = 0;
   }
@@ -65,19 +66,16 @@
     document.body.appendChild(lb);
   }
 
-  /* ---------- Floating Aero bubbles ---------- */
-  const bubbles = document.querySelector(".bubbles");
-  for (let i = 0; i < 18; i++) {
-    const b = document.createElement("span");
-    const size = 30 + Math.random() * 110;
-    b.className = "bubble";
-    b.style.width = b.style.height = size + "px";
-    b.style.left = Math.random() * 100 + "%";
-    b.style.animationDuration = 14 + Math.random() * 18 + "s";
-    b.style.animationDelay = -Math.random() * 30 + "s";
-    b.style.opacity = .35 + Math.random() * .5;
-    bubbles.appendChild(b);
-  }
+  /* ---------- Touch light + tap rings (everywhere) ---------- */
+  const glow = document.getElementById("touchGlow");
+  addEventListener("pointerdown", e => {
+    const r = document.createElement("span");
+    r.className = "tap-ring"; r.style.left = e.clientX + "px"; r.style.top = e.clientY + "px";
+    document.body.appendChild(r); setTimeout(() => r.remove(), 650);
+    glow.classList.add("on");
+  }, { passive: true });
+  addEventListener("pointermove", e => { glow.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`; }, { passive: true });
+  ["pointerup", "pointercancel"].forEach(ev => addEventListener(ev, () => glow.classList.remove("on"), { passive: true }));
 
   /* ---------- Clock ---------- */
   const clock = document.getElementById("clock");
