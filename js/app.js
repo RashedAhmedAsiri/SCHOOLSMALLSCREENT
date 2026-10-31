@@ -23,8 +23,7 @@
     const el = e.target.closest("[data-route]");
     if (!el) return;
     if (el.classList.contains("tile")) {
-      ripple(el, e);
-      setTimeout(() => go(el.dataset.route), 220);
+      setTimeout(() => go(el.dataset.route), 160);
     } else go(el.dataset.route);
   });
 
@@ -34,10 +33,9 @@
       const move = e => {
         const r = tile.getBoundingClientRect();
         const x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
-        tile.style.setProperty("--ry", ((x - .5) * 10).toFixed(2) + "deg");
-        tile.style.setProperty("--rx", ((.5 - y) * 10).toFixed(2) + "deg");
-        tile.style.setProperty("--mx", (x * 100).toFixed(1) + "%");
-        tile.style.setProperty("--my", (y * 100).toFixed(1) + "%");
+        tile.style.setProperty("--ry", ((x - .5) * 5).toFixed(2) + "deg");
+        tile.style.setProperty("--rx", ((.5 - y) * 5).toFixed(2) + "deg");
+        tile.style.setProperty("--gx", ((x - .5) * 120).toFixed(0) + "px");
       };
       const reset = () => { tile.style.setProperty("--rx", "0deg"); tile.style.setProperty("--ry", "0deg"); tile.classList.remove("pressed"); };
       tile.addEventListener("pointermove", move);
@@ -66,11 +64,11 @@
     document.body.appendChild(lb);
   }
 
-  /* ---------- Tap rings (everywhere) ---------- */
+  /* ---------- Small tap ring for touch feedback ---------- */
   addEventListener("pointerdown", e => {
     const r = document.createElement("span");
     r.className = "tap-ring"; r.style.left = e.clientX + "px"; r.style.top = e.clientY + "px";
-    document.body.appendChild(r); setTimeout(() => r.remove(), 650);
+    document.body.appendChild(r); setTimeout(() => r.remove(), 550);
   }, { passive: true });
 
   /* ---------- Clock ---------- */

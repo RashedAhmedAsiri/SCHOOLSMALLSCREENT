@@ -22,7 +22,7 @@ PAGES.home = () => {
   const tiles = APP_CONFIG.tiles.map(t => `
     <button class="tile ${t.color}" data-route="${t.route}" aria-label="${t.title}">
       <img class="pic" src="${t.img}" alt="" loading="eager">
-      <span class="wash"></span><span class="gloss"></span><span class="spec"></span><span class="shine"></span>
+      <span class="tint"></span><span class="grain"></span><span class="glare"></span>
       <span class="label"><span class="title">${t.title}</span><span class="sub">${t.sub}</span></span>
     </button>`).join("");
   return `<section class="page home-grid">${tiles}</section>`;
@@ -74,21 +74,21 @@ const SCHOOL = {
 };
 
 PAGES.school = () => {
-  const words = "ثانوية الموهوبين التقنية".split(" ")
-    .map((w, i) => `<span class="w" style="animation-delay:${0.1 + i * 0.15}s">${w}</span>`).join(" ");
   const goals = SCHOOL.goals.map((g, i) => `
     <button class="flip ${g.c}" aria-label="${g.t}">
-      <div class="face front"><div class="gnum">0${i + 1}</div><h3>${g.t}</h3><small>المس للقلب</small></div>
+      <div class="face front"><div class="num">0${i + 1}</div><h3>${g.t}</h3><div class="turn">المس للقراءة</div></div>
       <div class="face back glass">${g.d}</div>
     </button>`).join("");
   const fieldBtns = SCHOOL.fields.map((f, i) =>
-    `<button class="field-btn glass ${f.c} ${i === 0 ? "on" : ""}" data-field="${i}"><span>${f.t}</span></button>`).join("");
+    `<button class="field-btn glass ${f.c} ${i === 0 ? "on" : ""}" data-field="${i}">${ICON(ICONS[f.i])}<span>${f.t}</span></button>`).join("");
   const stats = SCHOOL.stats.map(s => `
     <div class="stat glass ${s.c}"><div class="big" data-count="${s.n}" data-suf="${s.suf || ""}">0</div>
     <div class="cap">${s.cap}</div><div class="meter"><i data-w="${s.p}"></i></div></div>`).join("");
   const feats = [...SCHOOL.features, ...SCHOOL.features].map(f => `<span class="glass">${f}</span>`).join("");
-  const gallery = Array.from({ length: 9 }, (_, i) =>
-    `<button class="item" data-zoom="assets/gallery/g${i + 1}.webp"><img src="assets/gallery/g${i + 1}.webp" alt="من أنشطة المدرسة" loading="lazy"></button>`).join("");
+  const caps = ["معرض المشاريع", "تجربة سيارة الروبوت", "داخل الفصل", "تعلّم البرمجة", "تكريم وشراكات", "عرض المشاريع", "عمل جماعي", "طلابنا", "المساعد الذكي (الراشد)"];
+  const rot = [-2.2, 1.6, -1, 2.4, -1.8, 1.1, -2.6, 1.9, -.8];
+  const gallery = caps.map((c, i) =>
+    `<figure class="print" style="--r:${rot[i]}deg;--t:${rot[(i + 3) % 9] * 2}deg" data-zoom="assets/gallery/g${i + 1}.webp"><span class="tape"></span><img src="assets/gallery/g${i + 1}.webp" alt="${c}" loading="lazy"><figcaption>${c}</figcaption></figure>`).join("");
 
   return `
   <section class="page intro-wrap">
@@ -107,16 +107,17 @@ PAGES.school = () => {
 
     <div class="hero" id="s-hero">
       <img class="pic" src="assets/img/school.webp" alt="">
+      <span class="grain"></span><span class="glare"></span>
       <div class="hero-card glass">
-        <h1>${words}</h1>
-        <p>(بنين - بنات) · الإدارة العامة للتعليم بمحافظة جدة</p>
-        <div class="chips"><span class="chip">وزارة التعليم</span><span class="chip">أكاديمية طويق</span><span class="chip">رؤية السعودية 2030</span></div>
+        <div class="kicker">تعرّف على مدرستنا</div>
+        <h1>ثانوية الموهوبين التقنية</h1>
+        <p>بنين وبنات · الإدارة العامة للتعليم بمحافظة جدة</p>
+        <div class="partners"><span>وزارة التعليم</span><span>أكاديمية طويق</span><span>رؤية السعودية 2030</span></div>
       </div>
-      <div class="scroll-hint">اسحب للأعلى لتكتشف المزيد</div>
     </div>
 
     <div class="sec reveal" id="s-about">
-      <div class="sec-title"><h2>شراكة لصناعة المستقبل</h2><span>من نحن</span></div>
+      <div class="sec-title"><span class="idx">01</span><h2>شراكة لصناعة المستقبل</h2></div>
       <div class="split">
         <div class="panel glass"><p>تأسست ثانوية الموهوبين التقنية لرعاية الموهوبين في المجال التقني، بالشراكة بين
           <b>وزارة التعليم</b> و<b>أكاديمية طويق</b>، إيمانًا بدور التقنية والذكاء الاصطناعي في النهضة والتقدم.
@@ -127,6 +128,7 @@ PAGES.school = () => {
     </div>
 
     <div class="sec reveal" id="s-vision">
+      <div class="sec-title"><span class="idx">02</span><h2>الرؤية والرسالة</h2></div>
       <div class="panel glass">
         <div class="seg glass" id="vmSeg"><button class="on" data-vm="0">الرؤية</button><button data-vm="1">الرسالة</button></div>
         <div class="swap">
@@ -137,12 +139,12 @@ PAGES.school = () => {
     </div>
 
     <div class="sec reveal" id="s-goals">
-      <div class="sec-title"><h2>أهدافنا</h2><span>المس أي بطاقة لتقلبها</span></div>
+      <div class="sec-title"><span class="idx">03</span><h2>أهدافنا</h2><span class="hint">المس البطاقة لتقرأ</span></div>
       <div class="flips">${goals}</div>
     </div>
 
     <div class="sec reveal" id="s-fields">
-      <div class="sec-title"><h2>مجالاتنا</h2><span>اختر مجالًا</span></div>
+      <div class="sec-title"><span class="idx">04</span><h2>مجالاتنا</h2><span class="hint">اختر مجالًا</span></div>
       <div class="fields">
         <div class="field-list">${fieldBtns}</div>
         <div class="field-view glass" id="fieldView"></div>
@@ -150,13 +152,13 @@ PAGES.school = () => {
     </div>
 
     <div class="sec reveal" id="s-programs">
-      <div class="sec-title"><h2>برامجنا</h2></div>
+      <div class="sec-title"><span class="idx">05</span><h2>برامجنا</h2></div>
       <div class="seg glass" id="progSeg"><button class="on" data-prog="tuwaiq">برامج أكاديمية طويق</button><button data-prog="school">مبادرات المدرسة</button></div>
       <div class="progs" id="progs"></div>
     </div>
 
     <div class="sec reveal" id="s-numbers">
-      <div class="sec-title"><h2>إنجازاتنا بالأرقام</h2></div>
+      <div class="sec-title"><span class="idx">06</span><h2>إنجازاتنا بالأرقام</h2></div>
       <div class="growth panel glass">
         <div class="bars">
           <div class="bar"><b data-count="13">0</b><div class="fill" data-h="45"></div><span>بداية البرنامج</span></div>
@@ -169,33 +171,34 @@ PAGES.school = () => {
     </div>
 
     <div class="sec reveal">
+      <div class="sec-title"><span class="idx">07</span><h2>عام الذكاء الاصطناعي</h2></div>
       <div class="ai">
         <img src="assets/img/ai2026.webp" alt="">
         <div class="ai-body">
           <div class="yr">2026</div>
-          <div><h3>عام الذكاء الاصطناعي</h3>
+          <div><h3>قرار مجلس الوزراء</h3>
             <p>وافق مجلس الوزراء على تسمية عام 2026 بعام الذكاء الاصطناعي، لتسريع التحول التقني ودعم الابتكار وتنمية الكفاءات الوطنية، بما يتوافق مع مستهدفات رؤية السعودية 2030.</p></div>
         </div>
       </div>
     </div>
 
     <div class="sec reveal">
-      <div class="sec-title"><h2>ما يميّزنا</h2></div>
+      <div class="sec-title"><span class="idx">08</span><h2>ما يميّزنا</h2></div>
       <div class="marquee"><div class="track">${feats}</div></div>
     </div>
 
     <div class="sec reveal" id="s-gallery">
-      <div class="sec-title"><h2>من أنشطتنا</h2><span>اسحب يمينًا ويسارًا، والمس الصورة لتكبيرها</span></div>
-      <div class="flow" id="flow">${gallery}</div>
+      <div class="sec-title"><span class="idx">09</span><h2>من أنشطتنا</h2><span class="hint">اسحب للتنقل · المس الصورة لتكبيرها</span></div>
+      <div class="prints" id="flow">${gallery}</div>
     </div>
 
     <div class="sec reveal" id="s-quiz">
-      <div class="sec-title"><h2>اختبر نفسك</h2><span>هل كنت منتبهًا؟</span></div>
+      <div class="sec-title"><span class="idx">10</span><h2>اختبر نفسك</h2><span class="hint">خمسة أسئلة سريعة</span></div>
       <div class="quiz glass" id="quiz"></div>
     </div>
 
-    <div class="end">ولا تزال المشاركات مستمرة<br>
-      <button class="glass pill-btn" data-go="s-hero" style="margin-top:18px">العودة للأعلى ↑</button></div>
+    <div class="end"><span>ولا تزال المشاركات مستمرة.</span>
+      <button class="glass pill-btn" data-go="s-hero">العودة للأعلى</button></div>
     </div>
   </section>`;
 };
@@ -258,7 +261,7 @@ PAGES.school.init = root => {
   const showField = i => {
     const f = SCHOOL.fields[i];
     view.className = "field-view glass " + f.c;
-    view.innerHTML = `<span class="halo"></span><span class="big">0${i + 1}</span><h3>${f.t}</h3><p>${f.d}</p>`;
+    view.innerHTML = `${ICON(ICONS[f.i], "ico")}<h3>${f.t}</h3><p>${f.d}</p>`;
     root.querySelectorAll(".field-btn").forEach(b => b.classList.toggle("on", +b.dataset.field === i));
   };
   root.querySelectorAll(".field-btn").forEach(b => b.addEventListener("click", () => showField(+b.dataset.field)));
@@ -275,44 +278,27 @@ PAGES.school.init = root => {
   seg.addEventListener("click", e => { const b = e.target.closest("[data-prog]"); if (b) showProgs(b.dataset.prog); });
   showProgs("tuwaiq");
 
-  /* coverflow gallery */
-  const flow = root.querySelector("#flow");
-  const items = [...flow.children];
-  const paint = () => {
-    const mid = flow.getBoundingClientRect().left + flow.clientWidth / 2;
-    items.forEach(it => {
-      const r = it.getBoundingClientRect();
-      const d = Math.max(-1.5, Math.min(1.5, (r.left + r.width / 2 - mid) / r.width));
-      it.style.transform = `rotateY(${-d * 38}deg) scale(${1 - Math.abs(d) * .18}) translateZ(${-Math.abs(d) * 80}px)`;
-      it.style.zIndex = 10 - Math.round(Math.abs(d) * 4);
-      it.style.filter = `brightness(${1 - Math.abs(d) * .15})`;
-    });
-  };
-  flow.addEventListener("scroll", () => requestAnimationFrame(paint), { passive: true });
-  requestAnimationFrame(() => { flow.scrollLeft = (flow.scrollWidth - flow.clientWidth) / 2 * (document.dir === "rtl" ? -1 : 1); paint(); });
-
   /* quiz */
   const quiz = root.querySelector("#quiz");
   let qi = 0, score = 0;
   const showQ = () => {
     if (qi >= SCHOOL.quiz.length) {
-      quiz.innerHTML = `<div class="q-count">نتيجتك</div><div class="score">${score} / ${SCHOOL.quiz.length}</div>
-        <h3>${score === SCHOOL.quiz.length ? "ممتاز! أنت خبير بمدرستنا" : score >= 3 ? "رائع! أداء جميل" : "حاول مرة أخرى"}</h3>
+      quiz.innerHTML = `<div class="q-top"><span>النتيجة</span></div><div class="score">${score}/${SCHOOL.quiz.length}</div>
+        <h3>${score === SCHOOL.quiz.length ? "إجابات كاملة. أنت تعرف مدرستنا جيدًا." : score >= 3 ? "أداء جيد. قريب من العلامة الكاملة." : "لا بأس، جرّب مرة أخرى."}</h3>
         <button class="glass pill-btn" id="again">أعد الاختبار</button>`;
-      if (score === SCHOOL.quiz.length) confetti(innerWidth / 2, innerHeight / 2, 90);
       quiz.querySelector("#again").onclick = () => { qi = 0; score = 0; showQ(); };
       return;
     }
     const q = SCHOOL.quiz[qi];
-    quiz.innerHTML = `<div class="q-count">سؤال ${qi + 1} من ${SCHOOL.quiz.length}</div>
-      <div class="q-bar"><i style="width:${(qi / SCHOOL.quiz.length) * 100}%"></i></div>
+    quiz.innerHTML = `<div class="q-top"><span>سؤال ${qi + 1} من ${SCHOOL.quiz.length}</span>
+      <span class="q-dots">${SCHOOL.quiz.map((_, k) => `<i class="${k < qi ? "done" : ""}"></i>`).join("")}</span></div>
       <h3>${q.q}</h3><div class="answers">${q.a.map((a, i) => `<button class="glass" data-a="${i}">${a}</button>`).join("")}</div>`;
     quiz.querySelectorAll("[data-a]").forEach(b => b.addEventListener("click", e => {
       if (quiz.dataset.lock) return;
       quiz.dataset.lock = 1;
       const ok = +b.dataset.a === q.r;
       b.classList.add(ok ? "right" : "wrong");
-      if (ok) { score++; confetti(e.clientX, e.clientY, 40); }
+      if (ok) score++;
       else quiz.querySelector(`[data-a="${q.r}"]`).classList.add("right");
       setTimeout(() => { delete quiz.dataset.lock; qi++; showQ(); }, 1300);
     }));
@@ -320,38 +306,20 @@ PAGES.school.init = root => {
   showQ();
 };
 
-function confetti(x, y, n) {
-  const colors = ["#4db5ff", "#7134d6", "#7ee86a", "#ffbe5c", "#f0620f", "#c99bff"];
-  for (let i = 0; i < n; i++) {
-    const c = document.createElement("span");
-    c.className = "confetti";
-    c.style.left = x + "px"; c.style.top = y + "px";
-    c.style.background = colors[i % colors.length];
-    const a = Math.random() * Math.PI * 2, v = 120 + Math.random() * 320;
-    c.style.setProperty("--dx", Math.cos(a) * v + "px");
-    c.style.setProperty("--dy", Math.sin(a) * v + 200 + "px");
-    c.style.setProperty("--r", (Math.random() * 720 - 360) + "deg");
-    document.body.appendChild(c);
-    setTimeout(() => c.remove(), 1700);
-  }
-}
-
 /* ---------------- Under construction (orange, green, purple) ---------------- */
 function underConstruction(tileId) {
   const t = APP_CONFIG.tiles.find(x => x.id === tileId);
-  const gear = cls => `<svg class="${cls}" viewBox="0 0 100 100" aria-hidden="true"><path fill="currentColor"
-      d="M43 4h14l2 11 7 3 9-6 10 10-6 9 3 7 11 2v14l-11 2-3 7 6 9-10 10-9-6-7 3-2 11H43l-2-11-7-3-9 6-10-10 6-9-3-7-11-2V43l11-2 3-7-6-9 10-10 9 6 7-3zM50 34a16 16 0 1 0 0 32 16 16 0 1 0 0-32z"/></svg>`;
   return `
-  <section class="page wip">
-    <div class="wip-card glass ${t.color}">
-      <span class="halo"></span>
-      <img class="pic" src="${t.img}" alt="">
-      <div class="wip-inner">
-        <h1>${t.title}</h1>
-        <p>هذه الصفحة قيد الإنشاء، ترقّبوها قريبًا</p>
-        <div class="progress glass"><span></span></div>
-        <button class="glass pill-btn big-back" data-route="home">العودة للرئيسية</button>
-      </div>
+  <section class="page wip ${t.color}">
+    <img class="pic" src="${t.img}" alt="">
+    <span class="tint"></span><span class="grain"></span><span class="glare"></span>
+    <div class="notice">
+      <span class="tape l"></span><span class="tape r"></span>
+      <div class="stamp">قيد الإنشاء</div>
+      <h1>${t.title}</h1>
+      <p>نعمل على تجهيز هذا القسم الآن، وسيكون متاحًا على هذه الشاشة قريبًا.</p>
+      <div class="stripes"></div>
+      <button class="back" data-route="home">العودة للرئيسية</button>
     </div>
   </section>`;
 }
