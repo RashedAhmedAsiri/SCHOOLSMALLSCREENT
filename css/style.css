@@ -97,17 +97,17 @@ button { font: inherit; color: inherit; }
 .view { position: fixed; inset: 0; padding: 96px var(--gap) var(--gap); }
 
 /* ---------- Home grid ---------- */
-.home-grid {
-  --sq: min(calc((100vh - 96px - var(--gap) * 2) / 2), calc((100vw - var(--gap) * 3) / 2));
-  height: 100%; display: grid; gap: var(--gap); place-content: center;
-  grid-template-columns: repeat(2, var(--sq)); grid-template-rows: repeat(2, var(--sq));
+.home-grid { height: 100%; display: grid; gap: var(--gap);
+  grid-template-columns: repeat(4, 1fr); grid-template-rows: 1fr;
   perspective: 1600px; }
+/* tall/portrait screens: 2 x 2 so the buttons don't get too thin */
+@media (max-aspect-ratio: 1/1) { .home-grid { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; } }
 
 .tile {
   --a: var(--blue-a); --b: var(--blue-b);
   --rx: 0deg; --ry: 0deg; --mx: 50%; --my: 30%;
   position: relative; overflow: hidden; border: 0; padding: 0; cursor: pointer; color: #fff;
-  aspect-ratio: 1; container-type: size;
+  container-type: size;
   border-radius: var(--radius);
   transform-style: preserve-3d;
   transform: rotateX(var(--rx)) rotateY(var(--ry)) translateZ(0);
@@ -157,11 +157,11 @@ button { font: inherit; color: inherit; }
   background: radial-gradient(40% 40% at var(--mx) var(--my), rgba(255,255,255,.45), transparent 70%);
   mix-blend-mode: soft-light; }
 
-.tile .label { position: absolute; inset-inline: 0; bottom: 0; padding: 7cqw;
+.tile .label { position: absolute; inset-inline: 0; bottom: 0; padding: 8cqw 8cqw 10cqw;
   display: flex; flex-direction: column; align-items: flex-start; gap: 8px; transform: translateZ(60px); text-align: start; }
-.tile .title { font-weight: 700; font-size: 10.5cqw; line-height: 1.1;
+.tile .title { font-weight: 700; font-size: min(12cqw, 7cqh); line-height: 1.1;
   text-shadow: 0 3px 0 color-mix(in srgb, var(--b) 60%, black), 0 8px 26px rgba(0,0,0,.45); }
-.tile .sub { font-weight: 500; font-size: 4.4cqw; padding: 6px 18px; border-radius: 999px;
+.tile .sub { font-weight: 500; font-size: min(5.5cqw, 3.2cqh); padding: 6px 18px; border-radius: 999px;
   background: rgba(255,255,255,.22); border: 1px solid rgba(255,255,255,.6);
   backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
 
