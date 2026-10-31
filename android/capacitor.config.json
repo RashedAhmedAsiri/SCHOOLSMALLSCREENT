@@ -1,0 +1,12 @@
+{
+  "appId": "sa.edu.mawhoobeen.screen",
+  "appName": "الموهوبين التقنية",
+  "webDir": "www",
+  "server": {
+    "url": "https://example.github.io/",
+    "cleartext": false
+  },
+  "android": {
+    "backgroundColor": "#0b5fa8"
+  }
+}
