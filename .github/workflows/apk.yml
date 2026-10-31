@@ -24,7 +24,7 @@ jobs:
         with:
           distribution: temurin
           java-version: 21
-      - uses: android-actions/setup-android@v3
+      # The ubuntu runner already ships the Android SDK (ANDROID_HOME), so no setup step is needed.
 
       - name: Point the app at this repo's GitHub Pages URL
         working-directory: android
