@@ -29,6 +29,7 @@ PAGES.home = () => {
 };
 
 /* ---------------- School intro ---------------- */
+const SCHOOL_PAGES = ["الرئيسية", "من نحن", "أهدافنا ومجالاتنا", "برامجنا", "إنجازاتنا", "صور", "اختبر نفسك"];
 const SCHOOL = {
   goals: [
     { c: "c-blue", i: "sprout", t: "الاستثمار في المواهب", d: "الاستثمار في المواهب التقنية الناشئة ورعايتها منذ البداية." },
@@ -93,19 +94,11 @@ PAGES.school = () => {
   return `
   <section class="page intro-wrap">
     <nav class="snav glass" id="snav">
-      <button data-go="s-hero" class="on">الرئيسية</button>
-      <button data-go="s-about">من نحن</button>
-      <button data-go="s-vision">الرؤية والرسالة</button>
-      <button data-go="s-goals">أهدافنا</button>
-      <button data-go="s-fields">مجالاتنا</button>
-      <button data-go="s-programs">برامجنا</button>
-      <button data-go="s-numbers">إنجازاتنا</button>
-      <button data-go="s-gallery">صور</button>
-      <button data-go="s-quiz">اختبر نفسك</button>
+      ${SCHOOL_PAGES.map((t, i) => `<button data-page="${i}" class="${i ? "" : "on"}">${t}</button>`).join("")}
     </nav>
     <div class="intro" id="intro">
 
-    <div class="hero" id="s-hero">
+    <div class="hero" id="s-hero" data-page="0">
       <img class="pic" src="assets/img/school.webp" alt="">
       <span class="grain"></span><span class="glare"></span>
       <div class="hero-card glass">
@@ -116,7 +109,7 @@ PAGES.school = () => {
       </div>
     </div>
 
-    <div class="sec reveal" id="s-about">
+    <div class="sec reveal" id="s-about" data-page="1">
       <div class="sec-title"><span class="idx">01</span><h2>شراكة لصناعة المستقبل</h2></div>
       <div class="split">
         <div class="panel glass"><p>تأسست ثانوية الموهوبين التقنية لرعاية الموهوبين في المجال التقني، بالشراكة بين
@@ -127,7 +120,7 @@ PAGES.school = () => {
       </div>
     </div>
 
-    <div class="sec reveal" id="s-vision">
+    <div class="sec reveal" id="s-vision" data-page="1">
       <div class="sec-title"><span class="idx">02</span><h2>الرؤية والرسالة</h2></div>
       <div class="panel glass">
         <div class="seg glass" id="vmSeg"><button class="on" data-vm="0">الرؤية</button><button data-vm="1">الرسالة</button></div>
@@ -138,12 +131,12 @@ PAGES.school = () => {
       </div>
     </div>
 
-    <div class="sec reveal" id="s-goals">
+    <div class="sec reveal" id="s-goals" data-page="2">
       <div class="sec-title"><span class="idx">03</span><h2>أهدافنا</h2><span class="hint">المس البطاقة لتقرأ</span></div>
       <div class="flips">${goals}</div>
     </div>
 
-    <div class="sec reveal" id="s-fields">
+    <div class="sec reveal" id="s-fields" data-page="2">
       <div class="sec-title"><span class="idx">04</span><h2>مجالاتنا</h2><span class="hint">اختر مجالًا</span></div>
       <div class="fields">
         <div class="field-list">${fieldBtns}</div>
@@ -151,14 +144,26 @@ PAGES.school = () => {
       </div>
     </div>
 
-    <div class="sec reveal" id="s-programs">
+    <div class="sec reveal" id="s-programs" data-page="3">
       <div class="sec-title"><span class="idx">05</span><h2>برامجنا</h2></div>
       <div class="seg glass" id="progSeg"><button class="on" data-prog="tuwaiq">برامج أكاديمية طويق</button><button data-prog="school">مبادرات المدرسة</button></div>
       <div class="progs" id="progs"></div>
     </div>
 
-    <div class="sec reveal" id="s-numbers">
-      <div class="sec-title"><span class="idx">06</span><h2>إنجازاتنا بالأرقام</h2></div>
+    <div class="sec reveal" data-page="3">
+      <div class="sec-title"><span class="idx">06</span><h2>عام الذكاء الاصطناعي</h2></div>
+      <div class="ai">
+        <img src="assets/img/ai2026.webp" alt="">
+        <div class="ai-body">
+          <div class="yr">2026</div>
+          <div><h3>قرار مجلس الوزراء</h3>
+            <p>وافق مجلس الوزراء على تسمية عام 2026 بعام الذكاء الاصطناعي، لتسريع التحول التقني ودعم الابتكار وتنمية الكفاءات الوطنية، بما يتوافق مع مستهدفات رؤية السعودية 2030.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec reveal" id="s-numbers" data-page="4">
+      <div class="sec-title"><span class="idx">07</span><h2>إنجازاتنا بالأرقام</h2></div>
       <div class="growth panel glass">
         <div class="bars">
           <div class="bar"><b data-count="13">0</b><div class="fill" data-h="45"></div><span>بداية البرنامج</span></div>
@@ -170,35 +175,26 @@ PAGES.school = () => {
       <div class="stats">${stats}</div>
     </div>
 
-    <div class="sec reveal">
-      <div class="sec-title"><span class="idx">07</span><h2>عام الذكاء الاصطناعي</h2></div>
-      <div class="ai">
-        <img src="assets/img/ai2026.webp" alt="">
-        <div class="ai-body">
-          <div class="yr">2026</div>
-          <div><h3>قرار مجلس الوزراء</h3>
-            <p>وافق مجلس الوزراء على تسمية عام 2026 بعام الذكاء الاصطناعي، لتسريع التحول التقني ودعم الابتكار وتنمية الكفاءات الوطنية، بما يتوافق مع مستهدفات رؤية السعودية 2030.</p></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="sec reveal">
+    <div class="sec reveal" data-page="4">
       <div class="sec-title"><span class="idx">08</span><h2>ما يميّزنا</h2></div>
       <div class="marquee"><div class="track">${feats}</div></div>
     </div>
 
-    <div class="sec reveal" id="s-gallery">
-      <div class="sec-title"><span class="idx">09</span><h2>من أنشطتنا</h2><span class="hint">اسحب للتنقل · المس الصورة لتكبيرها</span></div>
-      <div class="prints" id="flow">${gallery}</div>
+    <div class="sec reveal" id="s-gallery" data-page="5">
+      <div class="sec-title"><span class="idx">09</span><h2>من أنشطتنا</h2><span class="hint">اسحب أو استخدم الأسهم · المس الصورة لتكبيرها</span></div>
+      <div class="flow-wrap"><button class="flow-arrow glass r" data-flow="1" aria-label="السابق">→</button><div class="prints" id="flow">${gallery}</div><button class="flow-arrow glass l" data-flow="-1" aria-label="التالي">←</button></div>
     </div>
 
-    <div class="sec reveal" id="s-quiz">
+    <div class="sec reveal" id="s-quiz" data-page="6">
       <div class="sec-title"><span class="idx">10</span><h2>اختبر نفسك</h2><span class="hint">خمسة أسئلة سريعة</span></div>
       <div class="quiz glass" id="quiz"></div>
     </div>
 
-    <div class="end"><span>ولا تزال المشاركات مستمرة.</span>
-      <button class="glass pill-btn" data-go="s-hero">العودة للأعلى</button></div>
+    </div>
+    <div class="pager">
+      <button class="glass pill-btn" id="pgPrev">→ السابق</button>
+      <span class="pg-dots" id="pgDots">${SCHOOL_PAGES.map((_, i) => `<i data-page="${i}"></i>`).join("")}</span>
+      <button class="pill-btn pg-next" id="pgNext">التالي ←</button>
     </div>
   </section>`;
 };
@@ -206,18 +202,26 @@ PAGES.school = () => {
 PAGES.school.init = root => {
   const intro = root.querySelector("#intro");
 
-  /* section nav: tap to jump, highlight while scrolling */
-  const nav = root.querySelector("#snav");
-  root.addEventListener("click", e => {
-    const b = e.target.closest("[data-go]");
-    if (b) intro.querySelector("#" + b.dataset.go).scrollIntoView({ behavior: "smooth", block: "start" });
-  });
-  const navObs = new IntersectionObserver(entries => entries.forEach(en => {
-    if (!en.isIntersecting) return;
-    nav.querySelectorAll("button").forEach(b => b.classList.toggle("on", b.dataset.go === en.target.id));
+  /* short pages: one topic at a time, tabs on top and next / back at the bottom */
+  const nav = root.querySelector("#snav"), prev = root.querySelector("#pgPrev"), next = root.querySelector("#pgNext");
+  const blocks = intro.querySelectorAll("[data-page]");
+  const last = SCHOOL_PAGES.length - 1;
+  let cur = 0;
+  const showPage = i => {
+    cur = Math.max(0, Math.min(last, i));
+    blocks.forEach(b => b.hidden = +b.dataset.page !== cur);
+    nav.querySelectorAll("button").forEach(b => b.classList.toggle("on", +b.dataset.page === cur));
     nav.querySelector(".on")?.scrollIntoView({ inline: "center", block: "nearest", behavior: "smooth" });
-  }), { root: intro, rootMargin: "-40% 0px -55% 0px" });
-  intro.querySelectorAll("[id^='s-']").forEach(s => navObs.observe(s));
+    root.querySelectorAll("#pgDots i").forEach(d => d.classList.toggle("on", +d.dataset.page === cur));
+    prev.disabled = cur === 0;
+    next.textContent = cur === last ? "العودة للبداية ←" : `التالي: ${SCHOOL_PAGES[cur + 1]} ←`;
+    intro.style.scrollBehavior = "auto"; intro.scrollTop = 0; intro.style.scrollBehavior = "";
+  };
+  nav.addEventListener("click", e => { const b = e.target.closest("[data-page]"); if (b) showPage(+b.dataset.page); });
+  root.querySelector("#pgDots").addEventListener("click", e => { const d = e.target.closest("[data-page]"); if (d) showPage(+d.dataset.page); });
+  prev.addEventListener("click", () => showPage(cur - 1));
+  next.addEventListener("click", () => showPage(cur === last ? 0 : cur + 1));
+  showPage(0);
 
   /* hero parallax follows the finger */
   const hero = root.querySelector(".hero");
@@ -252,6 +256,11 @@ PAGES.school.init = root => {
     vm.querySelectorAll("button").forEach(x => x.classList.toggle("on", x === b));
     quotes.forEach((q, i) => q.classList.toggle("off", i !== +b.dataset.vm));
   });
+
+  /* gallery arrows */
+  const flow = root.querySelector("#flow");
+  root.querySelectorAll("[data-flow]").forEach(b => b.addEventListener("click", () =>
+    flow.scrollBy({ left: +b.dataset.flow * flow.clientWidth * .7, behavior: "smooth" })));
 
   /* flip cards */
   root.querySelectorAll(".flip").forEach(f => f.addEventListener("click", () => f.classList.toggle("on")));

@@ -1,6 +1,22 @@
 (() => {
   const view = document.getElementById("view");
   const homeBtn = document.getElementById("homeBtn");
+  const homeHint = document.getElementById("homeHint");
+
+  /* ---------- Arabic-Indic digits (٠١٢٣٤٥٦٧٨٩) everywhere on screen ---------- */
+  const AR = "٠١٢٣٤٥٦٧٨٩";
+  const arDigits = node => {
+    const walk = document.createTreeWalker(node, NodeFilter.SHOW_TEXT);
+    for (let t = node.nodeType === 3 ? node : walk.nextNode(); t; t = walk.nextNode()) {
+      if (/[0-9%]/.test(t.data)) t.data = t.data.replace(/[0-9]/g, d => AR[d]).replace(/%/g, "٪");
+      if (node.nodeType === 3) break;
+    }
+  };
+  new MutationObserver(list => list.forEach(m => {
+    if (m.type === "characterData") arDigits(m.target);
+    else m.addedNodes.forEach(n => (n.nodeType === 1 || n.nodeType === 3) && arDigits(n));
+  })).observe(document.body, { childList: true, subtree: true, characterData: true });
+  arDigits(document.body);
 
   /* ---------- Router (hash based, works on GitHub Pages) ---------- */
   function render() {
@@ -8,6 +24,7 @@
     const page = PAGES[route] || PAGES.home;
     view.innerHTML = page();
     homeBtn.hidden = route === "home";
+    homeHint.hidden = route !== "home";
     if (route === "home") setupTiles();
     if (page.init) page.init(view);
     const scroller = view.querySelector(".intro");
@@ -59,7 +76,7 @@
   function openLightbox(src) {
     const lb = document.createElement("div");
     lb.className = "lightbox";
-    lb.innerHTML = `<img src="${src}" alt="">`;
+    lb.innerHTML = `<img src="${src}" alt=""><button class="lb-close glass" aria-label="إغلاق">✕</button>`;
     lb.addEventListener("click", () => lb.remove());
     document.body.appendChild(lb);
   }

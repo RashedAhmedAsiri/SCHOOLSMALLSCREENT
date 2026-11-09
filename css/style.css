@@ -123,7 +123,7 @@ button { font: inherit; color: inherit; border: 0; background: none; padding: 0;
 .snav button.on { color: #fff; background-color: var(--ink); }
 
 /* hero: photo + frosted caption */
-.hero { --px: 0; --py: 0; position: relative; height: calc(100vh - 230px); min-height: 460px; border-radius: var(--radius); overflow: hidden; background: #1b2a44; }
+.hero { --px: 0; --py: 0; position: relative; height: 100%; min-height: 460px; border-radius: var(--radius); overflow: hidden; background: #1b2a44; }
 .hero .pic { position: absolute; inset: -3%; width: 106%; height: 106%; object-fit: cover;
   transform: translate3d(calc(var(--px) * -20px), calc(var(--py) * -20px), 0); transition: transform .25s ease-out; }
 .hero .grain { position: absolute; inset: 0; background: var(--grain); opacity: .3; mix-blend-mode: overlay; }
@@ -136,7 +136,7 @@ button { font: inherit; color: inherit; border: 0; background: none; padding: 0;
 .hero .partners { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line); font-size: clamp(16px, 1.2vw, 21px); font-weight: 500; }
 
 /* sections */
-.sec { margin-top: calc(var(--gap) * 2.4); scroll-margin-top: 10px; }
+.sec { margin-bottom: calc(var(--gap) * 2); }
 .sec-title { display: flex; align-items: baseline; gap: 18px; margin: 0 0 var(--gap); padding-bottom: 14px; border-bottom: 1px solid var(--line); }
 .sec-title .idx { font-size: clamp(16px, 1.2vw, 20px); color: var(--ink-2); font-variant-numeric: tabular-nums; direction: ltr; }
 .sec-title h2 { margin: 0; font-size: clamp(32px, 3vw, 54px); font-weight: 600; letter-spacing: -.01em; }
@@ -296,6 +296,31 @@ button { font: inherit; color: inherit; border: 0; background: none; padding: 0;
   background: repeating-linear-gradient(-45deg, #f2c230 0 18px, #1a1a1a 18px 36px); }
 .notice .back { padding: 14px 30px; border-radius: 999px; background: var(--ink); color: #fff; font-size: clamp(19px, 1.5vw, 25px); font-weight: 500; }
 
+/* school page pager */
+.pager { flex: none; display: flex; align-items: center; justify-content: space-between; gap: var(--gap); padding-top: var(--gap); }
+.pager .pill-btn { padding: 18px 34px; font-size: clamp(20px, 1.6vw, 28px); }
+.pager .pill-btn:disabled { opacity: .35; pointer-events: none; }
+.pg-next { color: #fff; background: var(--ink); box-shadow: 0 10px 24px -12px rgba(22,24,29,.5); }
+.pg-dots { display: flex; gap: 10px; }
+.pg-dots i { width: 14px; height: 14px; border-radius: 50%; background: var(--line); cursor: pointer; transition: background-color .25s, width .25s; }
+.pg-dots i.on { width: 40px; border-radius: 7px; background: var(--ink); }
+@media (max-width: 800px) { .pg-dots { display: none; } }
+
+/* gallery arrows */
+.flow-wrap { position: relative; }
+.flow-arrow { position: absolute; top: 50%; translate: 0 -50%; z-index: 2; width: 76px; height: 76px; border-radius: 50%; font-size: 34px; display: grid; place-items: center; }
+.flow-arrow.r { right: 0; } .flow-arrow.l { left: 0; }
+.flow-arrow:active { transform: scale(.92); }
+
+/* home prompt in the top bar */
+.home-hint { display: flex; align-items: baseline; gap: 18px; font-size: clamp(20px, 1.5vw, 28px); }
+.home-hint b { font-weight: 600; }
+.home-hint span { color: var(--ink-2); animation: breathe 2.4s ease-in-out infinite; }
+@keyframes breathe { 50% { opacity: .35; } }
+
+/* lightbox close */
+.lb-close { position: absolute; top: 28px; left: 28px; width: 72px; height: 72px; border-radius: 50%; font-size: 30px; }
+
 /* ==========================================================
    Student leave requests: a paper sheet on the green photo
    ========================================================== */
@@ -366,3 +391,5 @@ button { font: inherit; color: inherit; border: 0; background: none; padding: 0;
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition: none !important; }
 }
+
+@media (max-aspect-ratio: 1/1) { .print { width: min(72vw, 640px); } }
