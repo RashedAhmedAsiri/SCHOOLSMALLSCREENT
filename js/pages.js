@@ -324,5 +324,4 @@ function underConstruction(tileId) {
   </section>`;
 }
 PAGES.robot = () => underConstruction("robot");
-PAGES.teacher = () => underConstruction("teacher");
 PAGES.visit = () => underConstruction("visit");

@@ -4,7 +4,7 @@
    open screens pick up the new version and reload by themselves. */
 const CACHE = "school-screen-__BUILD__";
 const CORE = [
-  "./", "index.html", "css/style.css", "js/config.js", "js/pages.js", "js/app.js",
+  "./", "index.html", "css/style.css", "js/config.js", "js/pages.js", "js/leave.js", "js/app.js",
   "manifest.webmanifest", "assets/img/school.webp", "assets/img/robot.webp",
   "assets/img/teacher.webp", "assets/img/visit.webp", "assets/icons/icon-192.png",
 ];
