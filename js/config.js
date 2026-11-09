@@ -16,7 +16,7 @@ window.APP_CONFIG = {
   tiles: [
     { id: "school",  color: "blue",   title: "ماهي ثانوية الموهوبين التقنية", sub: "تعرّف على مدرستنا", img: "assets/img/school.webp",  route: "school" },
     { id: "robot",   color: "orange", title: "دليل الروبوت",                 sub: "قريبًا",            img: "assets/img/robot.webp",   route: "robot" },
-    { id: "leave",   color: "green",  title: "استئذان الطلاب",                sub: "طالب · ولي أمر · سائق", img: "assets/img/teacher.webp", route: "leave" },
+    { id: "leave",   color: "green",  title: "استئذان الطلاب",                sub: "الاستئذان الدراسي", img: "assets/img/teacher.webp", route: "leave" },
     { id: "visit",   color: "purple", title: "الزيارة للمدرسة",               sub: "قريبًا",            img: "assets/img/visit.webp",   route: "visit" },
   ],
 };
