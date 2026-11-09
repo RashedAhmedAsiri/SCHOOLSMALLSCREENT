@@ -7,6 +7,7 @@ const CORE = [
   "./", "index.html", "css/style.css", "js/config.js", "js/pages.js", "js/leave.js", "js/app.js",
   "manifest.webmanifest", "assets/img/school.webp", "assets/img/robot.webp",
   "assets/img/teacher.webp", "assets/img/visit.webp", "assets/icons/icon-192.png",
+  "assets/fonts/readex-arabic.woff2", "assets/fonts/readex-latin.woff2",
 ];
 
 self.addEventListener("install", e => {
@@ -30,7 +31,7 @@ self.addEventListener("fetch", e => {
   e.respondWith(
     fetch(req)
       .then(res => {
-        if (res.ok && (url.origin === location.origin || url.host.includes("fonts.g"))) {
+        if (res.ok && url.origin === location.origin) {
           const copy = res.clone();
           caches.open(CACHE).then(c => c.put(req, copy));
         }

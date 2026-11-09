@@ -23,7 +23,7 @@ PAGES.home = () => {
     <button class="tile ${t.color}" data-route="${t.route}" aria-label="${t.title}">
       <img class="pic" src="${t.img}" alt="" loading="eager">
       <span class="tint"></span><span class="grain"></span><span class="glare"></span>
-      <span class="label"><span class="title">${t.title}</span><span class="sub">${t.sub}</span></span>
+      <span class="label"><span class="frost" aria-hidden="true"><img src="${t.img}" alt=""><span class="tint"></span><span class="grain"></span><span class="glare"></span></span><span class="title">${t.title}</span><span class="sub">${t.sub}</span></span>
     </button>`).join("");
   return `<section class="page home-grid">${tiles}</section>`;
 };
@@ -99,9 +99,10 @@ PAGES.school = () => {
     <div class="intro" id="intro">
 
     <div class="hero" id="s-hero" data-page="0">
-      <img class="pic" src="assets/img/school.webp" alt="">
-      <span class="grain"></span><span class="glare"></span>
+      <span class="hero-move"><img class="pic" src="assets/img/school.webp" alt=""><span class="grain"></span></span>
+      <span class="glare"></span>
       <div class="hero-card glass">
+        <span class="hero-clip" aria-hidden="true"><span class="hero-frost"><span><img src="assets/img/school.webp" alt=""><span class="grain"></span><span class="glare"></span></span></span></span>
         <div class="kicker">تعرّف على مدرستنا</div>
         <h1>ثانوية الموهوبين التقنية</h1>
         <p>بنين وبنات · الإدارة العامة للتعليم بمحافظة جدة</p>
