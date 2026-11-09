@@ -306,11 +306,18 @@ button { font: inherit; color: inherit; border: 0; background: none; padding: 0;
 .pg-dots i.on { width: 40px; border-radius: 7px; background: var(--ink); }
 @media (max-width: 800px) { .pg-dots { display: none; } }
 
-/* gallery arrows */
-.flow-wrap { position: relative; }
-.flow-arrow { position: absolute; top: 50%; translate: 0 -50%; z-index: 2; width: 76px; height: 76px; border-radius: 50%; font-size: 34px; display: grid; place-items: center; }
-.flow-arrow.r { right: 0; } .flow-arrow.l { left: 0; }
-.flow-arrow:active { transform: scale(.92); }
+/* gallery arrows: beside the strip (not over the photos), one photo per tap */
+.flow-wrap { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: clamp(10px, 1.2vw, 22px); }
+.flow-arrow { flex: none; width: clamp(80px, 6vw, 104px); height: clamp(80px, 6vw, 104px); border-radius: 50%; display: grid; place-items: center;
+  font-size: clamp(36px, 2.8vw, 50px); line-height: 1; transition: transform .15s, opacity .25s; }
+.flow-arrow:active { transform: scale(.9); }
+.flow-arrow:disabled { opacity: .3; pointer-events: none; }
+.flow-count { grid-column: 1 / -1; justify-self: center; margin-top: -24px; font-size: clamp(18px, 1.4vw, 24px); color: var(--ink-2); }
+/* side padding lets the first and last photo sit in the centre too */
+.flow-wrap { --pw: clamp(300px, 26vw, 480px); }
+.flow-wrap .print { width: var(--pw); }
+.flow-wrap .prints { padding-inline: max(20px, calc(50% - var(--pw) / 2)); scroll-snap-type: x mandatory; }
+@media (orientation: portrait) { .flow-wrap { --pw: min(74vw, 820px); } }
 
 /* home prompt in the top bar */
 .home-hint { display: flex; align-items: baseline; gap: 18px; font-size: clamp(20px, 1.5vw, 28px); }

@@ -182,7 +182,7 @@ PAGES.school = () => {
 
     <div class="sec reveal" id="s-gallery" data-page="5">
       <div class="sec-title"><span class="idx">09</span><h2>من أنشطتنا</h2><span class="hint">اسحب أو استخدم الأسهم · المس الصورة لتكبيرها</span></div>
-      <div class="flow-wrap"><button class="flow-arrow glass r" data-flow="1" aria-label="السابق">→</button><div class="prints" id="flow">${gallery}</div><button class="flow-arrow glass l" data-flow="-1" aria-label="التالي">←</button></div>
+      <div class="flow-wrap"><button class="flow-arrow glass" data-flow="-1" aria-label="الصورة السابقة">→</button><div class="prints" id="flow">${gallery}</div><button class="flow-arrow glass" data-flow="1" aria-label="الصورة التالية">←</button><span class="flow-count" id="flowCount"></span></div>
     </div>
 
     <div class="sec reveal" id="s-quiz" data-page="6">
@@ -257,10 +257,25 @@ PAGES.school.init = root => {
     quotes.forEach((q, i) => q.classList.toggle("off", i !== +b.dataset.vm));
   });
 
-  /* gallery arrows */
-  const flow = root.querySelector("#flow");
-  root.querySelectorAll("[data-flow]").forEach(b => b.addEventListener("click", () =>
-    flow.scrollBy({ left: +b.dataset.flow * flow.clientWidth * .7, behavior: "smooth" })));
+  /* gallery arrows: move exactly one photo per tap, fade the arrow at either end */
+  const flow = root.querySelector("#flow"), prints = [...flow.children];
+  const arrows = root.querySelectorAll("[data-flow]"), flowCount = root.querySelector("#flowCount");
+  const centre = el => { const r = el.getBoundingClientRect(); return r.left + r.width / 2; };
+  const current = () => {
+    const c = centre(flow);
+    return prints.reduce((best, p, i) => Math.abs(centre(p) - c) < Math.abs(centre(prints[best]) - c) ? i : best, 0);
+  };
+  const syncFlow = () => {
+    const i = current();
+    arrows[0].disabled = i === 0; arrows[1].disabled = i === prints.length - 1;
+    flowCount.textContent = `${(i + 1).toLocaleString("ar-SA")} / ${prints.length.toLocaleString("ar-SA")}`;
+  };
+  arrows.forEach(b => b.addEventListener("click", () => {
+    const t = prints[Math.max(0, Math.min(prints.length - 1, current() + +b.dataset.flow))];
+    flow.scrollBy({ left: centre(t) - centre(flow), behavior: "smooth" });
+  }));
+  let flowT; flow.addEventListener("scroll", () => { clearTimeout(flowT); flowT = setTimeout(syncFlow, 80); }, { passive: true });
+  new ResizeObserver(syncFlow).observe(flow);   /* also fires when the photos page is shown */
 
   /* flip cards */
   root.querySelectorAll(".flip").forEach(f => f.addEventListener("click", () => f.classList.toggle("on")));
