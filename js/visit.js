@@ -29,13 +29,13 @@
     const settleAt = .1 + (n1 + 1 + V().welcomeSub.split(" ").length) * .08 + .35;
     return `
     <section class="page visit intro" style="--settle:${settleAt.toFixed(2)}s">
-      <img class="pic" src="assets/img/visit.webp" alt="">
+      <img class="pic" src="assets/img/ai2026.webp" alt="">
       <span class="shade"></span>
       <header class="vs-hello">
         <h1 id="vsTitle">${words}</h1>
         <p class="vs-sub">${words2}</p>
       </header>
-      <div class="vs-rail" aria-hidden="true"><i></i><i></i></div>
+      <div class="vs-rail" aria-hidden="true"></div>
       <div class="vs-stage" id="vsStage"></div>
     </section>`;
   };
