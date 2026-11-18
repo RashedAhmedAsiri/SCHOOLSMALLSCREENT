@@ -15,10 +15,19 @@ Touch-screen web app (Arabic, RTL) in a liquid-glass / Frutiger Aero style.
 | --- | --- |
 | Button titles, colors, pictures, idle timeout | `js/config.js` |
 | Page content (school intro, under-construction pages) | `js/pages.js` |
+| Visit page: welcome lines, visitor types, purposes, staff names | `js/config.js` → `visit` |
+| Visitor check-in flow | `js/visit.js` |
+| Student leave flow | `js/leave.js` |
+| Staff log (visits + leave, CSV download) | `js/records.js` |
 | Look and feel | `css/style.css` |
 | Pictures | `assets/img/`, `assets/gallery/` |
 
 To add a new page: write a function in `js/pages.js` (`PAGES.myPage = () => \`...\``) and set a tile's `route` to `"myPage"`.
+
+## Staff log
+Hold the title of the visit page or the leave page for 3 seconds to open the staff log (`#/staff-log`).
+It has two tabs, visits and leave, each downloads as a CSV file for Excel, and visitors can be checked out from it.
+Records are kept on the screen itself (localStorage), so each screen has its own log.
 
 ## Future internet features (messaging, accounts)
 `js/config.js` has `apiBase` and `features.messaging` ready. GitHub Pages only hosts static files,

@@ -331,7 +331,7 @@ PAGES.school.init = root => {
   showQ();
 };
 
-/* ---------------- Under construction (orange, green, purple) ---------------- */
+/* ---------------- Under construction ---------------- */
 function underConstruction(tileId) {
   const t = APP_CONFIG.tiles.find(x => x.id === tileId);
   return `
@@ -349,4 +349,3 @@ function underConstruction(tileId) {
   </section>`;
 }
 PAGES.robot = () => underConstruction("robot");
-PAGES.visit = () => underConstruction("visit");
