@@ -1,5 +1,5 @@
 /* Visitor check-in (الزيارة للمدرسة).
-   Opens with an animated welcome line, then the "who are you" signs drop down on ropes.
+   Opens with an animated welcome line, then the "who are you" signs drop down, hanging from a Sadu band.
    Steps: who → purpose → who you came to see → name → thank-you with a visit number.
    Each visit is saved on this screen (localStorage, key "visitLog"); staff see it in the
    staff log (hold the welcome line for 3 seconds). Text and choices live in config.js → visit. */
@@ -17,22 +17,25 @@
   };
   const pad = n => String(n).padStart(3, "0");
 
-  /* a rope pair + rings, shared by the signs and the hanging sheet */
-  const ropes = `<svg class="ropes" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-    <path class="base" d="M50 0 14 100M50 0 86 100"/><path class="twist" d="M50 0 14 100M50 0 86 100"/></svg><span class="hook"></span>`;
+  /* two woven Sadu straps running straight down from the band, shared by the signs and the sheet */
+  const ropes = `<span class="strap a" aria-hidden="true"></span><span class="strap b" aria-hidden="true"></span>`;
 
   PAGES.visit = () => {
-    // both lines play the same word-by-word animation; the second starts after a short pause
-    const split = (text, from) => text.split(" ").map((w, i) => `<span class="w" style="--w:${from + i}">${esc(w)}</span>`).join(" ");
-    const n1 = V().welcome.split(" ").length;
-    const words = split(V().welcome, 0), words2 = split(V().welcomeSub, n1 + 1);
-    const settleAt = .1 + (n1 + 1 + V().welcomeSub.split(" ").length) * .08 + .35;
+    // line 1: words flip down into place one by one, a light sweeps across, then line 2 rises in.
+    // Only transform and opacity are animated, so it stays light on slow screens.
+    const split = (text, start, step) => text.split(" ").map((w, i) =>
+      `<span class="w" style="--dl:${(start + i * step).toFixed(2)}s">${esc(w)}</span>`).join(" ");
+    const w1 = V().welcome.split(" ").length, w2 = V().welcomeSub.split(" ").length;
+    const words = split(V().welcome, .25, .17);
+    const line1End = .25 + (w1 - 1) * .17 + .9;
+    const words2 = split(V().welcomeSub, line1End + .35, .13);
+    const settleAt = line1End + .35 + (w2 - 1) * .13 + .8 + .7;
     return `
     <section class="page visit intro" style="--settle:${settleAt.toFixed(2)}s">
-      <img class="pic" src="assets/img/ai2026.webp" alt="">
+      <img class="pic" src="assets/gallery/g3.webp" alt="">
       <span class="shade"></span>
       <header class="vs-hello">
-        <h1 id="vsTitle">${words}</h1>
+        <h1 id="vsTitle" style="--sweep:${(line1End - .2).toFixed(2)}s">${words}</h1>
         <p class="vs-sub">${words2}</p>
       </header>
       <div class="vs-rail" aria-hidden="true"></div>
@@ -168,7 +171,7 @@
       if (!el || reduced || e.target.closest("input")) return;
       const r = el.getBoundingClientRect();
       const dir = e.clientX < r.left + r.width / 2 ? 1 : -1;
-      const amp = el.classList.contains("board") ? 1.2 : 5;
+      const amp = el.classList.contains("board") ? .8 : 2;
       el.animate([0, 1, -.7, .4, -.2, 0].map(k => ({ rotate: `${k * amp * dir}deg` })), { duration: 1200, easing: "ease-out", composite: "add" });
     });
 
