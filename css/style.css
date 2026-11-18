@@ -477,11 +477,15 @@ button { font: inherit; color: inherit; border: 0; background: none; padding: 0;
 .visit.compact .vs-hello h1 { font-size: clamp(30px, 2.8vw, 54px); }
 .visit.compact .vs-sub { font-size: clamp(18px, 1.5vw, 28px); margin-top: 14px; }
 
-/* the Sadu (السدو) band everything hangs from */
-.vs-rail { position: relative; z-index: 2; justify-self: stretch; margin-inline: calc(var(--gap) * -1); height: clamp(40px, 4.8vh, 56px); margin-top: clamp(16px, 2.6vh, 34px);
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='40' viewBox='0 0 48 40'%3E%3Crect width='48' height='40' fill='%23161112'/%3E%3Crect width='48' height='5' fill='%23a3201a'/%3E%3Crect y='35' width='48' height='5' fill='%23a3201a'/%3E%3Cpath d='M0 7h48M0 33h48' stroke='%23f4ead8' stroke-width='1.6' stroke-dasharray='4 2'/%3E%3Cpath d='M0 30 12 10 24 30z' fill='%23f4ead8'/%3E%3Cpath d='M24 10 36 30 48 10z' fill='%23c8361f'/%3E%3Cpath d='M12 18l3 5-3 5-3-5z' fill='%23161112'/%3E%3Cpath d='M36 14l2.4 4-2.4 4-2.4-4z' fill='%23f4ead8'/%3E%3Cpath d='M0 10 3 15 0 20M48 20 45 25 48 30' fill='%23e8a33d'/%3E%3C/svg%3E") repeat-x center / auto 100%;
-  box-shadow: 0 6px 12px -6px rgba(0,0,0,.6);
+/* the circuit band everything hangs from: glowing traces, pads and vias (one SVG tile, no filters) */
+.vs-rail { position: relative; z-index: 2; justify-self: stretch; margin-inline: calc(var(--gap) * -1); height: clamp(30px, 3.6vh, 40px); margin-top: clamp(16px, 2.6vh, 34px);
+  overflow: hidden; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='36' viewBox='0 0 160 36'%3E%3Cg fill='none' stroke='%2357d8ff' stroke-width='7' stroke-opacity='.18' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M0 20h46l8-8h44l8 8h54'/%3E%3Cpath d='M70 12V5h22M120 20v9h16M24 20v8'/%3E%3C/g%3E%3Cg fill='none' stroke='%23a5ecff' stroke-width='2.4' stroke-opacity='1' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M0 20h46l8-8h44l8 8h54'/%3E%3Cpath d='M70 12V5h22M120 20v9h16M24 20v8'/%3E%3C/g%3E%3Cg fill='%23200f4a' stroke='%23a5ecff' stroke-width='2'%3E%3Ccircle cx='92' cy='5' r='3'/%3E%3Ccircle cx='136' cy='29' r='3'/%3E%3Ccircle cx='24' cy='29' r='2.6'/%3E%3C/g%3E%3Cg fill='%23a5ecff'%3E%3Crect x='76' y='9' width='6' height='6' rx='1' fill-opacity='.9'/%3E%3C/g%3E%3C/svg%3E") repeat-x left center / auto 100%;
   transform-origin: center; animation: rail-in .5s calc(var(--settle) + .3s) cubic-bezier(.2,.8,.2,1) both; }
+/* a spark runs along the band a couple of times, then stops */
+.vs-rail::after { content: ""; position: absolute; top: 50%; left: 0; width: 160px; height: 24px; margin-top: -6px; pointer-events: none;
+  background: radial-gradient(ellipse 50% 40% at 50% 50%, rgba(230,250,255,.95), rgba(120,220,255,.35) 45%, transparent 70%);
+  opacity: 0; animation: spark 2.4s calc(var(--settle) + .9s) cubic-bezier(.45,0,.55,1) 2 both; }
+@keyframes spark { 0% { transform: translateX(-160px); opacity: 0; } 10%, 85% { opacity: 1; } 100% { transform: translateX(100vw); opacity: 0; } }
 @keyframes rail-in { from { scale: 0 1; opacity: 0; } }
 
 .vs-stage { --d: .05s; position: relative; z-index: 1; min-height: 0; display: flex; flex-direction: column; align-items: center; }
@@ -498,9 +502,15 @@ button { font: inherit; color: inherit; border: 0; background: none; padding: 0;
   0% { rotate: 0deg; } 20% { rotate: calc(var(--amp) * 3deg); } 50% { rotate: calc(var(--amp) * -1.6deg); }
   78% { rotate: calc(var(--amp) * .6deg); } 100% { rotate: 0deg; } }
 
-.strap { position: absolute; top: -4px; width: clamp(12px, 1vw, 18px); height: calc(var(--rope) + 18px); pointer-events: none;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='24' viewBox='0 0 16 24'%3E%3Crect width='16' height='24' fill='%23161112'/%3E%3Crect width='3' height='24' fill='%23a3201a'/%3E%3Crect x='13' width='3' height='24' fill='%23a3201a'/%3E%3Cpath d='M4 1h8l-4 9z' fill='%23f4ead8'/%3E%3Cpath d='M4 13h8l-4 9z' fill='%23c8361f'/%3E%3Cpath d='M8 3.5l1.4 2.2L8 7.9 6.6 5.7z' fill='%23161112'/%3E%3C/svg%3E") repeat-y top / 100% auto; box-shadow: 0 3px 6px rgba(0,0,0,.35); }
-.strap.a { inset-inline-start: 16%; } .strap.b { inset-inline-end: 16%; }
+/* glowing wire traces from the band down to each sign, ending on a solder pad */
+.strap { position: absolute; top: calc(clamp(30px, 3.6vh, 40px) * -.44); width: 10px; height: calc(var(--rope) + clamp(30px, 3.6vh, 40px) * .44 + 4px); pointer-events: none; overflow: hidden;
+  background: linear-gradient(90deg, transparent 0 1px, rgba(87,216,255,.22) 1px 3px, #a5ecff 3px 7px, rgba(87,216,255,.22) 7px 9px, transparent 9px); }
+.strap::before { content: ""; position: absolute; left: -3px; bottom: 2px; width: 16px; height: 16px; border-radius: 50%; background: #200f4a; border: 3px solid #a5ecff; box-sizing: border-box; }
+.strap::after { content: ""; position: absolute; left: -1px; top: 0; width: 12px; height: 40px;
+  background: radial-gradient(ellipse 50% 50% at 50% 50%, #fff, rgba(165,236,255,.5) 45%, transparent 70%);
+  opacity: 0; animation: zap .9s calc(var(--d) + var(--i) * .08s + .9s) ease-in both; }
+@keyframes zap { 0% { transform: translateY(-40px); opacity: 0; } 20% { opacity: 1; } 100% { transform: translateY(calc(var(--rope) - 10px)); opacity: 0; } }
+.strap.a { inset-inline-start: 18%; } .strap.b { inset-inline-end: 18%; }
 
 /* step 1 signs */
 .vs-signs { display: flex; justify-content: center; align-items: flex-start; gap: clamp(18px, 2.6vw, 54px); width: 100%; }

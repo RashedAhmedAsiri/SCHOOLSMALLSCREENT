@@ -1,5 +1,5 @@
 /* Visitor check-in (الزيارة للمدرسة).
-   Opens with an animated welcome line, then the "who are you" signs drop down, hanging from a Sadu band.
+   Opens with an animated welcome line, then the "who are you" signs drop down, hanging from a glowing circuit band.
    Steps: who → purpose → who you came to see → name → thank-you with a visit number.
    Each visit is saved on this screen (localStorage, key "visitLog"); staff see it in the
    staff log (hold the welcome line for 3 seconds). Text and choices live in config.js → visit. */
@@ -17,7 +17,7 @@
   };
   const pad = n => String(n).padStart(3, "0");
 
-  /* two woven Sadu straps running straight down from the band, shared by the signs and the sheet */
+  /* two glowing circuit traces running down from the band, shared by the signs and the sheet */
   const ropes = `<span class="strap a" aria-hidden="true"></span><span class="strap b" aria-hidden="true"></span>`;
 
   PAGES.visit = () => {
