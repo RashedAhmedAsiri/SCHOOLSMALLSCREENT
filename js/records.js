@@ -48,7 +48,7 @@ window.REC = (() => {
     const rows = list.map(r => {
       const d = new Date(r.at), out = r.out ? new Date(r.out) : null;
       return `<tr class="${sameDay(d, today) && !out ? "in" : ""}">
-        <td><b>${esc(r.name)}</b><small class="ltr">${esc(r.phone)}</small>${r.student ? `<small>الطالب: ${esc(r.student)}</small>` : ""}</td>
+        <td><b>${esc(r.name)}</b>${r.phone ? `<small class="ltr">${esc(r.phone)}</small>` : ""}${r.student ? `<small>الطالب: ${esc(r.student)}</small>` : ""}</td>
         <td>${esc(r.typeLabel)}</td><td>${esc(r.purposeLabel)}</td><td>${esc(r.host || "—")}</td>
         <td>${when(d)}</td><td class="t">${timeText(d)}</td>
         <td class="t">${out ? timeText(out) : `<button class="sl-out" data-out="${r._i}">تسجيل خروج</button>`}</td></tr>`;
@@ -100,8 +100,8 @@ window.REC = (() => {
       }
     });
     root.querySelector("#slCsv").addEventListener("click", () => {
-      if (tab === "visit") csv("زيارات", ["الزائر", "الجوال", "الصفة", "الغرض", "المقصود", "اسم الطالب", "التاريخ الهجري", "التاريخ الميلادي", "الدخول", "الخروج"],
-        load(VISIT).map(r => { const d = new Date(r.at); return [r.name, r.phone, r.typeLabel, r.purposeLabel, r.host, r.student, dateText(d), greg(d), timeText(d), r.out ? timeText(new Date(r.out)) : ""]; }));
+      if (tab === "visit") csv("زيارات", ["الزائر", "الصفة", "الغرض", "المقصود", "اسم الطالب", "التاريخ الهجري", "التاريخ الميلادي", "الدخول", "الخروج"],
+        load(VISIT).map(r => { const d = new Date(r.at); return [r.name, r.typeLabel, r.purposeLabel, r.host, r.student, dateText(d), greg(d), timeText(d), r.out ? timeText(new Date(r.out)) : ""]; }));
       else csv("استئذان", ["اسم الطالب", "المستأذن", "التاريخ الهجري", "التاريخ الميلادي", "الوقت"],
         load(LEAVE).map(r => { const d = new Date(r.at); return [r.name, r.roleLabel, dateText(d), greg(d), timeText(d)]; }));
     });

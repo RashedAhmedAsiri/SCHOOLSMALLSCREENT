@@ -1,6 +1,6 @@
 /* Visitor check-in (الزيارة للمدرسة).
    Opens with an animated welcome line, then the "who are you" signs drop down on ropes.
-   Steps: who → purpose → who you came to see → name and phone → thank-you with a visit number.
+   Steps: who → purpose → who you came to see → name → thank-you with a visit number.
    Each visit is saved on this screen (localStorage, key "visitLog"); staff see it in the
    staff log (hold the welcome line for 3 seconds). Text and choices live in config.js → visit. */
 (() => {
@@ -25,18 +25,17 @@
     // both lines play the same word-by-word animation; the second starts after a short pause
     const split = (text, from) => text.split(" ").map((w, i) => `<span class="w" style="--w:${from + i}">${esc(w)}</span>`).join(" ");
     const n1 = V().welcome.split(" ").length;
-    const words = split(V().welcome, 0), words2 = split(V().welcomeSub, n1 + 2);
-    const settleAt = .15 + (n1 + 2 + V().welcomeSub.split(" ").length) * .13 + .5;
+    const words = split(V().welcome, 0), words2 = split(V().welcomeSub, n1 + 1);
+    const settleAt = .1 + (n1 + 1 + V().welcomeSub.split(" ").length) * .08 + .35;
     return `
     <section class="page visit intro" style="--settle:${settleAt.toFixed(2)}s">
-      <img class="pic" src="assets/img/visit.webp" alt="">
-      <span class="tint"></span><span class="shade"></span><span class="grain"></span>
-      <span class="motes" aria-hidden="true">${Array.from({ length: 14 }, (_, i) => `<i style="--m:${i}"></i>`).join("")}</span>
+      <img class="pic" src="assets/img/ai2026.webp" alt="">
+      <span class="shade"></span>
       <header class="vs-hello">
         <h1 id="vsTitle">${words}</h1>
         <p class="vs-sub">${words2}</p>
       </header>
-      <div class="vs-rail" aria-hidden="true"><i></i><i></i></div>
+      <div class="vs-rail" aria-hidden="true"></div>
       <div class="vs-stage" id="vsStage"></div>
     </section>`;
   };
@@ -55,7 +54,7 @@
       if (!items.length || reduced) return Promise.resolve();
       return Promise.all(items.map((el, i) => el.animate(
         [{ translate: "0 0" }, { translate: "0 18px", offset: .25 }, { translate: "0 -120vh" }],
-        { duration: 650, delay: i * 50, easing: "cubic-bezier(.55,0,.7,.2)", fill: "forwards" }).finished));
+        { duration: 450, delay: i * 30, easing: "cubic-bezier(.55,0,.7,.2)", fill: "forwards" }).finished));
     };
     const hang = async (html, compact = true) => {
       stage.dataset.busy = 1;
@@ -101,14 +100,13 @@
       const parent = rec.type === "parent";
       await sheet(rec.host || rec.purposeLabel, "عرّفنا بك", `
       <form class="lv-form vs-form" id="vsForm" autocomplete="off">
-        <label>الاسم<input id="vsName" type="text" maxlength="80" enterkeyhint="next" placeholder="اسمك الكامل"></label>
-        <label>رقم الجوال<input id="vsPhone" class="ltr" type="tel" inputmode="numeric" maxlength="14" enterkeyhint="${parent ? "next" : "done"}" placeholder="05xxxxxxxx"></label>
+        <label class="${parent ? "" : "wide"}">الاسم<input id="vsName" type="text" maxlength="80" enterkeyhint="${parent ? "next" : "done"}" placeholder="اسمك الكامل"></label>
         ${parent ? `<label><span>اسم الطالب <small>(اختياري)</small></span><input id="vsStudent" type="text" maxlength="80" enterkeyhint="done" placeholder="اسم ابنك في المدرسة"></label>` : ""}
         <div class="lv-err" id="vsErr" hidden></div>
         <div class="lv-actions"><button class="lv-primary" type="submit">تسجيل الزيارة</button>${back(rec.hostStep ? "host" : "purpose")}</div>
       </form>`);
       const f = stage.querySelector("#vsForm");
-      const name = f.querySelector("#vsName"), phone = f.querySelector("#vsPhone"), student = f.querySelector("#vsStudent");
+      const name = f.querySelector("#vsName"), student = f.querySelector("#vsStudent");
       setTimeout(() => name.focus(), 500);
       f.addEventListener("submit", e => {
         e.preventDefault();
@@ -116,14 +114,12 @@
         f.querySelectorAll(".bad").forEach(x => x.classList.remove("bad"));
         const fail = (el, msg) => { err.textContent = msg; err.hidden = false; el.classList.add("bad"); el.focus(); };
         const n = clean(name.value);
-        const p = phone.value.replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d)).replace(/[^\d+]/g, "");
         if (n.split(" ").length < 2) return fail(name, "اكتب اسمك الأول واسم العائلة على الأقل.");
-        if (!/^(05\d{8}|\+?9665\d{8})$/.test(p)) return fail(phone, "اكتب رقم جوال صحيحًا يبدأ بـ ٠٥ ويتكوّن من ١٠ أرقام.");
         document.activeElement?.blur();
         const now = new Date();
         const num = REC.load(KEY).filter(r => sameDay(new Date(r.at), now)).length + 1;
         const data = { type: rec.type, typeLabel: rec.typeLabel, purpose: rec.purpose, purposeLabel: rec.purposeLabel,
-          host: rec.host || "", name: n, phone: p, student: student ? clean(student.value) : "", num, at: now.toISOString(), out: null };
+          host: rec.host || "", name: n, student: student ? clean(student.value) : "", num, at: now.toISOString(), out: null };
         REC.save(KEY, data);
         done(data, now);
       });
