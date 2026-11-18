@@ -510,7 +510,7 @@ button { font: inherit; color: inherit; border: 0; background: none; padding: 0;
   background: radial-gradient(ellipse 50% 50% at 50% 50%, #fff, rgba(165,236,255,.5) 45%, transparent 70%);
   opacity: 0; animation: zap .9s calc(var(--d) + var(--i) * .08s + .9s) ease-in both; }
 @keyframes zap { 0% { transform: translateY(-40px); opacity: 0; } 20% { opacity: 1; } 100% { transform: translateY(calc(var(--rope) - 10px)); opacity: 0; } }
-.strap.a { inset-inline-start: 18%; } .strap.b { inset-inline-end: 18%; }
+.strap { left: 50%; margin-left: -5px; }
 
 /* step 1 signs */
 .vs-signs { display: flex; justify-content: center; align-items: flex-start; gap: clamp(18px, 2.6vw, 54px); width: 100%; }
@@ -530,7 +530,6 @@ button { font: inherit; color: inherit; border: 0; background: none; padding: 0;
 
 /* steps 2-5: one paper sheet hanging on ropes */
 .board { --amp: .15; width: min(1060px, 100%); max-height: 100%; }
-.board .strap.a { inset-inline-start: 18%; } .board .strap.b { inset-inline-end: 18%; }
 .board .sheet { width: 100%; min-height: 0; max-height: 100%; }
 .vs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(12px, 1.2vw, 20px); }
 .vs-opt { --c: var(--purple); position: relative; overflow: hidden; min-height: clamp(84px, 9vh, 130px); padding: 18px 22px; border-radius: 18px;
