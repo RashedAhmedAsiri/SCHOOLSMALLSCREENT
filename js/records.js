@@ -49,11 +49,11 @@ window.REC = (() => {
       const d = new Date(r.at), out = r.out ? new Date(r.out) : null;
       return `<tr class="${sameDay(d, today) && !out ? "in" : ""}">
         <td><b>${esc(r.name)}</b>${r.phone ? `<small class="ltr">${esc(r.phone)}</small>` : ""}${r.student ? `<small>الطالب: ${esc(r.student)}</small>` : ""}</td>
-        <td>${esc(r.typeLabel)}</td><td>${esc(r.purposeLabel)}</td><td>${esc(r.host || "—")}</td>
+        <td>${esc(r.typeLabel)}</td><td>${esc(r.purposeLabel)}</td>
         <td>${when(d)}</td><td class="t">${timeText(d)}</td>
         <td class="t">${out ? timeText(out) : `<button class="sl-out" data-out="${r._i}">تسجيل خروج</button>`}</td></tr>`;
     }).join("");
-    return `<table><thead><tr><th>الزائر</th><th>الصفة</th><th>الغرض</th><th>المقصود</th><th>التاريخ</th><th>الدخول</th><th>الخروج</th></tr></thead><tbody>${rows}</tbody></table>`;
+    return `<table><thead><tr><th>الزائر</th><th>الصفة</th><th>الغرض</th><th>التاريخ</th><th>الدخول</th><th>الخروج</th></tr></thead><tbody>${rows}</tbody></table>`;
   };
   const leaveTable = list => `<table><thead><tr><th>اسم الطالب</th><th>المستأذن</th><th>التاريخ</th><th>الوقت</th></tr></thead><tbody>${
     list.map(r => { const d = new Date(r.at); return `<tr><td>${esc(r.name)}</td><td>${esc(r.roleLabel)}</td><td>${when(d)}</td><td class="t">${timeText(d)}</td></tr>`; }).join("")
@@ -100,8 +100,8 @@ window.REC = (() => {
       }
     });
     root.querySelector("#slCsv").addEventListener("click", () => {
-      if (tab === "visit") csv("زيارات", ["الزائر", "الصفة", "الغرض", "المقصود", "اسم الطالب", "التاريخ الهجري", "التاريخ الميلادي", "الدخول", "الخروج"],
-        load(VISIT).map(r => { const d = new Date(r.at); return [r.name, r.typeLabel, r.purposeLabel, r.host, r.student, dateText(d), greg(d), timeText(d), r.out ? timeText(new Date(r.out)) : ""]; }));
+      if (tab === "visit") csv("زيارات", ["الزائر", "الصفة", "الغرض", "اسم الطالب", "التاريخ الهجري", "التاريخ الميلادي", "الدخول", "الخروج"],
+        load(VISIT).map(r => { const d = new Date(r.at); return [r.name, r.typeLabel, r.purposeLabel, r.student, dateText(d), greg(d), timeText(d), r.out ? timeText(new Date(r.out)) : ""]; }));
       else csv("استئذان", ["اسم الطالب", "المستأذن", "التاريخ الهجري", "التاريخ الميلادي", "الوقت"],
         load(LEAVE).map(r => { const d = new Date(r.at); return [r.name, r.roleLabel, dateText(d), greg(d), timeText(d)]; }));
     });
