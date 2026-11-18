@@ -1,6 +1,6 @@
 /* Visitor check-in (الزيارة للمدرسة).
    Opens with an animated welcome line, then the "who are you" signs drop down, hanging from a glowing circuit band.
-   Steps: who → purpose → who you came to see → name → thank-you with a visit number.
+   Steps: who → purpose → name → thank-you with a visit number.
    Each visit is saved on this screen (localStorage, key "visitLog"); staff see it in the
    staff log (hold the welcome line for 3 seconds). Text and choices live in config.js → visit. */
 (() => {
@@ -95,19 +95,14 @@
         `<button class="vs-opt" data-purpose="${p.id}" style="--k:${i}"><span>${esc(p.label)}</span></button>`).join("")}</div>
       <div class="lv-actions">${back("who")}</div>`);
 
-    const host = () => sheet(rec.purposeLabel, "من تودّ مقابلته؟", `
-      <div class="vs-grid">${V().hosts.map((h, i) =>
-        `<button class="vs-opt" data-host="${esc(h)}" style="--k:${i}"><span>${esc(h)}</span></button>`).join("")}</div>
-      <div class="lv-actions">${back("purpose")}</div>`);
-
     const details = async () => {
       const parent = rec.type === "parent";
-      await sheet(rec.host || rec.purposeLabel, "عرّفنا بك", `
+      await sheet(rec.purposeLabel, "عرّفنا بك", `
       <form class="lv-form vs-form" id="vsForm" autocomplete="off">
         <label class="${parent ? "" : "wide"}">الاسم<input id="vsName" type="text" maxlength="80" enterkeyhint="${parent ? "next" : "done"}" placeholder="اسمك الكامل"></label>
         ${parent ? `<label><span>اسم الطالب <small>(اختياري)</small></span><input id="vsStudent" type="text" maxlength="80" enterkeyhint="done" placeholder="اسم ابنك في المدرسة"></label>` : ""}
         <div class="lv-err" id="vsErr" hidden></div>
-        <div class="lv-actions"><button class="lv-primary" type="submit">تسجيل الزيارة</button>${back(rec.hostStep ? "host" : "purpose")}</div>
+        <div class="lv-actions"><button class="lv-primary" type="submit">تسجيل الزيارة</button>${back("purpose")}</div>
       </form>`);
       const f = stage.querySelector("#vsForm");
       const name = f.querySelector("#vsName"), student = f.querySelector("#vsStudent");
@@ -123,7 +118,7 @@
         const now = new Date();
         const num = REC.load(KEY).filter(r => sameDay(new Date(r.at), now)).length + 1;
         const data = { type: rec.type, typeLabel: rec.typeLabel, purpose: rec.purpose, purposeLabel: rec.purposeLabel,
-          host: rec.host || "", name: n, student: student ? clean(student.value) : "", num, at: now.toISOString(), out: null };
+          name: n, student: student ? clean(student.value) : "", num, at: now.toISOString(), out: null };
         REC.save(KEY, data);
         done(data, now);
       });
@@ -136,7 +131,7 @@
         <div class="vs-ticket"><small>رقم زيارتك</small><b>${pad(r.num)}</b></div>
         <div class="vs-info">
           <div class="lv-check"><svg viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="24"/><path d="m15 27 7 7 15-16"/></svg></div>
-          <p class="lv-saved">سُجّلت زيارتك${r.host ? ` لمقابلة ${esc(r.host)}` : ""}<br><small>${dateText(now)} · ${timeText(now)}</small></p>
+          <p class="lv-saved">سُجّلت زيارتك: ${esc(r.purposeLabel)}<br><small>${dateText(now)} · ${timeText(now)}</small></p>
           <p class="lv-note">تفضّل إلى الاستقبال وأخبرهم برقم زيارتك.</p>
         </div>
       </div>
@@ -149,7 +144,7 @@
     stage.addEventListener("click", e => {
       const b = e.target.closest("button");
       if (!b || stage.dataset.busy) return;
-      const { type, purpose: pid, host: h, go } = b.dataset;
+      const { type, purpose: pid, go } = b.dataset;
       if (type) {
         const t = V().types.find(x => x.id === type);
         Object.assign(rec, { type, typeLabel: t.label });
@@ -157,13 +152,12 @@
         purpose();
       } else if (pid) {
         const p = V().purposes.find(x => x.id === pid);
-        Object.assign(rec, { purpose: pid, purposeLabel: p.label, hostStep: p.host !== false, host: "" });
-        rec.hostStep ? host() : details();
-      } else if (h) { rec.host = h; details(); }
+        Object.assign(rec, { purpose: pid, purposeLabel: p.label });
+        details();
+      }
       else if (go === "home") { clearTimeout(doneTimer); location.hash = ""; }
       else if (go === "who") who();
       else if (go === "purpose") purpose();
-      else if (go === "host") host();
     });
 
     /* a touch on a sign or the sheet makes it swing a little */

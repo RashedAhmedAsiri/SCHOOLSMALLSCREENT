@@ -32,19 +32,14 @@ window.APP_CONFIG = {
       { id: "vendor",   label: "مورّد أو صيانة",    icon: "box" },
       { id: "partner",  label: "شريك استراتيجي",    icon: "handshake" },
     ],
-    // Step 2: why. "host: false" skips the "who are you visiting" step.
+    // Step 2: why they are visiting.
     purposes: [
       { id: "teacher",  label: "مقابلة معلّم" },
       { id: "admin",    label: "مقابلة الإدارة" },
       { id: "appt",     label: "موعد مسبق" },
-      { id: "tour",     label: "جولة تعريفية",      host: false },
-      { id: "delivery", label: "تسليم أو صيانة",    host: false },
+      { id: "tour",     label: "جولة تعريفية" },
+      { id: "delivery", label: "تسليم أو صيانة" },
       { id: "other",    label: "غرض آخر" },
-    ],
-    // Step 3: who they came to see. Edit to match the school's staff.
-    hosts: [
-      "مدير المدرسة", "وكيل شؤون الطلاب", "وكيل الشؤون التعليمية",
-      "الموجّه الطلابي", "رائد النشاط", "معلّم",
     ],
     // Seconds the thank-you screen stays before going home.
     doneSeconds: 8,
