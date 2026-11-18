@@ -2,22 +2,14 @@
    Who is asking: a student, a parent, or a driver. Each request is saved on this
    screen only (localStorage, key "leaveRequests") with the date and time.
    Staff can see the saved list by holding the page title for 3 seconds
-   (or opening #/leave-log), and download it as a CSV file for Excel. */
+   (the staff log in records.js, #/staff-log?tab=leave). */
 (() => {
   const KEY = "leaveRequests";
   const DONE_SECONDS = 5;
   let doneTimer = null;
 
-  const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch { return []; } };
-  const save = rec => {
-    const list = load(); list.push(rec);
-    try { localStorage.setItem(KEY, JSON.stringify(list)); } catch {}
-  };
-  const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-  const clean = s => s.replace(/\s+/g, " ").trim();
-  const dateText = d => d.toLocaleDateString("ar-SA-u-ca-islamic-umalqura", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
-  const greg = d => d.toLocaleDateString("ar-SA-u-ca-gregory", { day: "numeric", month: "long", year: "numeric" });
-  const timeText = d => d.toLocaleTimeString("ar-SA", { hour: "2-digit", minute: "2-digit" });
+  const { esc, clean, dateText, timeText } = REC;
+  const save = rec => REC.save(KEY, rec);
 
   const ROLES = {
     student: { label: "أنا طالب", who: "الطالب" },
@@ -121,46 +113,10 @@
       else if (act === "home") { clearTimeout(doneTimer); location.hash = ""; }
     });
 
-    /* staff: hold the title for 3 seconds to open the saved list */
-    let hold;
-    sheet.addEventListener("pointerdown", e => {
-      if (!e.target.closest("#lvTitle")) return;
-      hold = setTimeout(() => { location.hash = "#/leave-log"; }, 3000);
-    });
-    ["pointerup", "pointerleave", "pointercancel"].forEach(ev => sheet.addEventListener(ev, () => clearTimeout(hold)));
+    /* staff: hold the title for 3 seconds to open the staff log */
+    REC.staffHold(sheet, "#lvTitle", "leave");
 
     choose();
   };
 
-  /* ---------- saved list for staff ---------- */
-  PAGES["leave-log"] = () => {
-    const list = load().slice().reverse();
-    const rows = list.map(r => {
-      const d = new Date(r.at);
-      return `<tr><td>${esc(r.name)}</td><td>${esc(r.roleLabel)}</td><td>${dateText(d)}<small>${greg(d)}</small></td><td class="t">${timeText(d)}</td></tr>`;
-    }).join("");
-    return `
-    <section class="page leave-log">
-      <div class="panel glass">
-        <div class="sec-title"><h2>سجل الاستئذان</h2><span class="hint">${list.length} طلبًا محفوظًا على هذه الشاشة</span></div>
-        <div class="lv-tools"><button class="glass pill-btn" id="lvCsv">تنزيل ملف Excel (CSV)</button>
-          <button class="glass pill-btn" data-route="leave">رجوع</button></div>
-        ${list.length ? `<div class="lv-table"><table><thead><tr><th>اسم الطالب</th><th>المستأذن</th><th>التاريخ</th><th>الوقت</th></tr></thead><tbody>${rows}</tbody></table></div>`
-          : `<p class="lv-empty">لا توجد طلبات محفوظة بعد.</p>`}
-      </div>
-    </section>`;
-  };
-  PAGES["leave-log"].init = root => {
-    root.querySelector("#lvCsv").addEventListener("click", () => {
-      const q = v => `"${String(v).replace(/"/g, '""')}"`;
-      const lines = [["اسم الطالب", "المستأذن", "التاريخ الهجري", "التاريخ الميلادي", "الوقت"].map(q).join(",")];
-      load().forEach(r => { const d = new Date(r.at); lines.push([r.name, r.roleLabel, dateText(d), greg(d), timeText(d)].map(q).join(",")); });
-      const blob = new Blob(["﻿" + lines.join("\r\n")], { type: "text/csv;charset=utf-8" });
-      const a = document.createElement("a");
-      a.href = URL.createObjectURL(blob);
-      a.download = `استئذان-${new Date().toISOString().slice(0, 10)}.csv`;
-      document.body.appendChild(a); a.click(); a.remove();
-      setTimeout(() => URL.revokeObjectURL(a.href), 1000);
-    });
-  };
 })();
