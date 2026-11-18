@@ -30,7 +30,7 @@ window.APP_CONFIG = {
       { id: "parent",   label: "ولي أمر",          icon: "family" },
       { id: "official", label: "زائر رسمي أو وفد",  icon: "badge" },
       { id: "vendor",   label: "مورّد أو صيانة",    icon: "box" },
-      { id: "alumni",   label: "خرّيج",             icon: "cap" },
+      { id: "partner",  label: "شريك استراتيجي",    icon: "handshake" },
     ],
     // Step 2: why. "host: false" skips the "who are you visiting" step.
     purposes: [

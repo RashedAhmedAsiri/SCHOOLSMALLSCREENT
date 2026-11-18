@@ -14,11 +14,12 @@
     badge: '<rect x="4" y="3" width="16" height="18" rx="2.5"/><circle cx="12" cy="10" r="3"/><path d="M8 17c.8-1.8 2.2-2.6 4-2.6s3.2.8 4 2.6M10 3v2h4V3"/>',
     box: '<path d="M3 7.5 12 3l9 4.5v9L12 21l-9-4.5z"/><path d="m3 7.5 9 4.5 9-4.5M12 12v9M7.5 5.2l9 4.6"/>',
     cap: ICONS.cap,
+    handshake: '<path d="m11 17 2 2a1 1 0 1 0 3-3"/><path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4"/><path d="m21 3 1 11h-2"/><path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3"/><path d="M3 4h8"/>',
   };
   const pad = n => String(n).padStart(3, "0");
 
-  /* two glowing circuit traces running down from the band, shared by the signs and the sheet */
-  const ropes = `<span class="strap a" aria-hidden="true"></span><span class="strap b" aria-hidden="true"></span>`;
+  /* one glowing circuit trace running down from the band, shared by the signs and the sheet */
+  const ropes = `<span class="strap" aria-hidden="true"></span>`;
 
   PAGES.visit = () => {
     // line 1: words flip down into place one by one, a light sweeps across, then line 2 rises in.
